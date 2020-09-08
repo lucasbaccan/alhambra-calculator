@@ -13,6 +13,8 @@ class Game with ChangeNotifier {
 
   TileColor _colorSelected = TileColor.BLUE;
 
+  bool abrirFechar = true;
+
   // Métodos
   List<Player> get playerList {
     return [..._playerList];
@@ -34,6 +36,20 @@ class Game with ChangeNotifier {
 
   void removePlayer(PlayerColor playerColor) {
     _playerList.remove(_playerList.where((player) => player.color == playerColor).toList().first);
+    notifyListeners();
+  }
+
+  void openAllDetalhe() {
+    for (Player player in _playerList) {
+      if (!player.mostrarDetalhes) player.toggleDetalhes();
+    }
+    notifyListeners();
+  }
+
+  void closeAllDetalhe() {
+    for (Player player in _playerList) {
+      if (player.mostrarDetalhes) player.toggleDetalhes();
+    }
     notifyListeners();
   }
 
@@ -92,6 +108,8 @@ class Game with ChangeNotifier {
     // Adiciona dois jogadores para não vir em branco
     _playerList.add(Player(PlayerColor.BLUE));
     _playerList.add(Player(PlayerColor.RED));
+
+    abrirFechar = true;
 
     notifyListeners();
   }
@@ -164,7 +182,8 @@ class Game with ChangeNotifier {
       // Segundo Lugar
       if (segundoLista.length != 0) {
         totalPontosDividir = pontosSegundoLugar;
-        if (rodada == 2 && segundoLista.length >= 2) {
+        if (rodada == 2 &&
+            (segundoLista.length >= 2 || (pontosSegundoLugar == 0 && pontosTerceiroLugar != 0))) {
           // Rodada 3, soma os pontos se tiver tres pessoas ou mais
           totalPontosDividir += pontosTerceiroLugar;
           pontosTerceiroLugar = 0;

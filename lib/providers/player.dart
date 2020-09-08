@@ -11,6 +11,8 @@ class Player with ChangeNotifier {
   List<int> _muralhaList = [0, 0, 0];
   // Pontos do jogador, uma lista com 3 valores, 1 para cada rodada
   List<int> _tilesScoreList = [0, 0, 0];
+  // Detalhes expandir
+  bool mostrarDetalhes = false;
 
   // Construtor
   Player(this.color);
@@ -81,4 +83,9 @@ class Player with ChangeNotifier {
   int getPontosRodada(int rodada) => _tilesScoreList[rodada] + _muralhaList[rodada];
 
   int getTotalPontos() => getPontosRodada(0) + getPontosRodada(1) + getPontosRodada(2);
+
+  void toggleDetalhes() {
+    mostrarDetalhes = !mostrarDetalhes;
+    notifyListeners();
+  }
 }

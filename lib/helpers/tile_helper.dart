@@ -10,8 +10,8 @@ enum TileColor {
 }
 
 class TileHelper {
-  static Color getTileColor(TileColor tilesTypes) {
-    switch (tilesTypes) {
+  static Color getTileColor(TileColor tileColor) {
+    switch (tileColor) {
       case TileColor.BLUE:
         return Colors.blue[400];
       case TileColor.RED:
@@ -29,8 +29,8 @@ class TileHelper {
     }
   }
 
-  static Color getTileColorDark(TileColor tilesTypes) {
-    switch (tilesTypes) {
+  static Color getTileColorDark(TileColor tileColor) {
+    switch (tileColor) {
       case TileColor.BLUE:
         return Colors.blue[400];
       case TileColor.RED:
@@ -48,8 +48,8 @@ class TileHelper {
     }
   }
 
-  static int getTileMaxPiece(TileColor tilesTypes) {
-    switch (tilesTypes) {
+  static int getTileMaxPiece(TileColor tileColor) {
+    switch (tileColor) {
       case TileColor.BLUE:
         return 7;
       case TileColor.RED:

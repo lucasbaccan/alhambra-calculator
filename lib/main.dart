@@ -27,6 +27,17 @@ class MyApp extends StatelessWidget {
             title: Text("Alhambra"),
             centerTitle: true,
             actions: <Widget>[
+              Consumer<Game>(
+                builder: (ctx, game, _) => IconButton(
+                  icon: game.abrirFechar
+                      ? Icon(Icons.keyboard_arrow_down)
+                      : Icon(Icons.keyboard_arrow_up),
+                  onPressed: () => {
+                    game.abrirFechar = !game.abrirFechar,
+                    game.abrirFechar ? game.closeAllDetalhe() : game.openAllDetalhe(),
+                  },
+                ),
+              ),
               Consumer2<Game, BottomNavigationBarProvider>(
                 builder: (ctx, game, bottomNavigationBar, _) => IconButton(
                   icon: Icon(Icons.refresh),
