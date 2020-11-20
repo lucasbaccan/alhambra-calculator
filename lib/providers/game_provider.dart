@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import './player_provider.dart';
 import '../helpers/player_helper.dart';
@@ -11,9 +12,12 @@ class GameProvider with ChangeNotifier {
     PlayerProvider(PlayerColor.BLUE),
     PlayerProvider(PlayerColor.RED),
   ];
+  Map<PlayerColor, String> _playersNomes = {};
 
   TileColor _colorSelected = TileColor.BLUE;
   bool openClose = true;
+
+  Image image;
 
   // Métodos
   List<PlayerProvider> get playerList {
@@ -29,8 +33,19 @@ class GameProvider with ChangeNotifier {
     return _playerList.where((player) => player.color == playerColor).toList().isNotEmpty;
   }
 
+  PlayerProvider getPlayerByColor(PlayerColor playerColor) {
+    if (playerInList(playerColor)) {
+      return _playerList.where((player) => player.color == playerColor).first;
+    }
+    return null;
+  }
+
   void addPlayer(PlayerColor playerColor) {
-    _playerList.add(PlayerProvider(playerColor));
+    PlayerProvider player = PlayerProvider(playerColor);
+    if (_playersNomes.containsKey(playerColor)) {
+      player.nome = _playersNomes[playerColor];
+    }
+    _playerList.add(player);
     notifyListeners();
   }
 
@@ -51,6 +66,15 @@ class GameProvider with ChangeNotifier {
       if (player.mostrarDetalhes) player.toggleDetalhes();
     }
     notifyListeners();
+  }
+
+  // Nome players
+  void updateNameList(PlayerColor color, String nome) {
+    if (_playersNomes.containsKey(color)) {
+      _playersNomes[color] = nome;
+    } else {
+      _playersNomes.putIfAbsent(color, () => nome);
+    }
   }
 
   // Selected color
@@ -99,6 +123,7 @@ class GameProvider with ChangeNotifier {
 
   // Reiniciar jogo
   void restartGame() {
+    _playersNomes.clear();
     _playerList.clear();
     for (TileColor tileColor in TileColor.values) {
       tilesLeftByColorCalculation(tileColor);
@@ -209,5 +234,11 @@ class GameProvider with ChangeNotifier {
     for (PlayerProvider player in _playerList) {
       player.zerarTileScore(rodada, 0);
     }
+  }
+
+  // Update image
+  void updateImage(Image imagem) {
+    image = imagem;
+    notifyListeners();
   }
 }

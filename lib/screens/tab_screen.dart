@@ -29,19 +29,19 @@ class TabScreen extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.looks_one),
-            title: Text('Rodada 1'),
+            label: 'Rodada 1',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.looks_two),
-            title: Text('Rodada 2'),
+            label: 'Rodada 2',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.looks_3),
-            title: Text('Final'),
+            label: 'Final',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle_outline),
-            title: Text('Total'),
+            label: 'Total',
           ),
         ],
       ),

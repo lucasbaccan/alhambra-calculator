@@ -28,8 +28,22 @@ class HomeScreenDrawer extends StatelessWidget {
               children: [
                 PlayerCircleAvatar(color),
                 const SizedBox(width: 10),
-                // Text("Jogador ${color.toString().substring(color.toString().indexOf('.') + 1)}")
-                Text("Jogador ${PlayerHelper.getPlayerText(color)}")
+                Expanded(
+                  child: TextFormField(
+                    // maxLength: 20,
+                    initialValue:
+                        gameProvider.getPlayerByColor(color) == null ? "" : gameProvider.getPlayerByColor(color).nome,
+                    decoration: InputDecoration(
+                      hintText: "Jogador ${PlayerHelper.getPlayerText(color)}",
+                    ),
+                    onChanged: (text) {
+                      if (gameProvider.getPlayerByColor(color) != null) {
+                        gameProvider.getPlayerByColor(color).nome = text;
+                      }
+                      gameProvider.updateNameList(color, text);
+                    },
+                  ),
+                )
               ],
             ),
           ),

@@ -14,8 +14,11 @@ class PlayerProvider with ChangeNotifier {
   List<int> _tilesScoreList = [0, 0, 0];
   // Detalhes expandir
   bool mostrarDetalhes = false;
+  // Jogador nome
+  String nome = "";
 
   // Construtor
+  // PlayerProvider(this.color);
   PlayerProvider(this.color);
 
   //Métodos
@@ -87,6 +90,12 @@ class PlayerProvider with ChangeNotifier {
 
   void toggleDetalhes() {
     mostrarDetalhes = !mostrarDetalhes;
+    notifyListeners();
+  }
+
+  // Nome
+  void editNome(String value) {
+    nome = value;
     notifyListeners();
   }
 }

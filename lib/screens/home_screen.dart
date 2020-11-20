@@ -20,18 +20,23 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.refresh),
+            color: Theme.of(context).accentColor.computeLuminance() > 0.5 ? Colors.white : Colors.black,
             onPressed: () => {
               gameProvider.restartGame(),
               appProvider.setCurrentIndex = 0,
             },
           ),
-          IconButton(
-            icon: gameProvider.openClose ? Icon(Icons.keyboard_arrow_down) : Icon(Icons.keyboard_arrow_up),
-            onPressed: () => {
-              gameProvider.openClose = !gameProvider.openClose,
-              gameProvider.openClose ? gameProvider.closeAllDetails() : gameProvider.openAllDetails(),
-            },
-          )
+          Visibility(
+            visible: appProvider.getCurrentIndex != 3,
+            child: IconButton(
+              icon: gameProvider.openClose ? Icon(Icons.keyboard_arrow_down) : Icon(Icons.keyboard_arrow_up),
+              color: Theme.of(context).accentColor.computeLuminance() > 0.5 ? Colors.white : Colors.black,
+              onPressed: () => {
+                gameProvider.openClose = !gameProvider.openClose,
+                gameProvider.openClose ? gameProvider.closeAllDetails() : gameProvider.openAllDetails(),
+              },
+            ),
+          ),
         ],
       ),
       body: TabScreen(),
