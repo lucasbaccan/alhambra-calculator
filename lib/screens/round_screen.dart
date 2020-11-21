@@ -19,7 +19,7 @@ class RoundScreen extends StatelessWidget {
         ColorBar(),
         Divider(thickness: 2),
         Text(
-          "Quantidade de peças na rodada ${round}",
+          "Quantidade de peças na rodada $round",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8),

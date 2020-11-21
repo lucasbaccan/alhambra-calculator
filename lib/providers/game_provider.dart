@@ -1,3 +1,4 @@
+import 'package:alhambra_calculator/model/score_explain_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class GameProvider with ChangeNotifier {
     PlayerProvider(PlayerColor.RED),
   ];
   Map<PlayerColor, String> _playersNomes = {};
+  List<List<ScoreExplainModel>> scoreExplain = [[], [], []];
 
   TileColor _colorSelected = TileColor.BLUE;
   bool openClose = true;
@@ -125,6 +127,8 @@ class GameProvider with ChangeNotifier {
   void restartGame() {
     _playersNomes.clear();
     _playerList.clear();
+    scoreExplain = [[], [], []];
+
     for (TileColor tileColor in TileColor.values) {
       tilesLeftByColorCalculation(tileColor);
     }
@@ -143,6 +147,7 @@ class GameProvider with ChangeNotifier {
   void calcularPontosRodada(int rodada) {
     // Zera todos os pontos para poder calcular no metodo
     zerarPontuacaoJogadores(rodada);
+    scoreExplain[rodada].clear();
 
     // Passar por todas as cores
     for (TileColor tileColor in TileColor.values) {
@@ -171,6 +176,7 @@ class GameProvider with ChangeNotifier {
       if (keysOrdenados.last == 0) continue;
 
       // Quantidade de pontos que a peça consegue fazer na rodada;
+      int totalPontos;
       int totalPontosDividir;
       int pontosPrimeiroLugar = TileHelper.getTileScore(rodada + 1, tileColor);
       int pontosSegundoLugar = TileHelper.getTileScore(rodada, tileColor);
@@ -199,9 +205,12 @@ class GameProvider with ChangeNotifier {
         pontosTerceiroLugar = 0;
       }
       // Pega o total de pontos e divide entre as pessoas
+      totalPontos = totalPontosDividir;
       totalPontosDividir = (totalPontosDividir / primeiroLista.length).floor();
       for (PlayerProvider jogador in primeiroLista) {
         jogador.addTilesScore(rodada, totalPontosDividir);
+        scoreExplain[rodada].add(
+            ScoreExplainModel(jogador.color, tileColor, "$totalPontosDividir ($totalPontos/${primeiroLista.length})"));
       }
       // -------------------------------------------------------------
       // Segundo Lugar
@@ -213,18 +222,24 @@ class GameProvider with ChangeNotifier {
           pontosTerceiroLugar = 0;
         }
         // Pega o total de pontos e divide entre as pessoas
+        totalPontos = totalPontosDividir;
         totalPontosDividir = (totalPontosDividir / segundoLista.length).floor();
         for (PlayerProvider jogador in segundoLista) {
           jogador.addTilesScore(rodada, totalPontosDividir);
+          scoreExplain[rodada].add(
+              ScoreExplainModel(jogador.color, tileColor, "$totalPontosDividir ($totalPontos/${segundoLista.length})"));
         }
       }
       // -------------------------------------------------------------
       // Terceiro Lugar
       if (terceiroLista.length != 0) {
         totalPontosDividir = pontosTerceiroLugar;
+        totalPontos = totalPontosDividir;
         totalPontosDividir = (totalPontosDividir / terceiroLista.length).floor();
         for (PlayerProvider jogador in terceiroLista) {
           jogador.addTilesScore(rodada, totalPontosDividir);
+          scoreExplain[rodada].add(ScoreExplainModel(
+              jogador.color, tileColor, "$totalPontosDividir ($totalPontos/${terceiroLista.length})"));
         }
       }
     }

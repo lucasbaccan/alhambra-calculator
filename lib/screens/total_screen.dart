@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:alhambra_calculator/widgets/player/player_name_total.dart';
+import 'package:alhambra_calculator/widgets/score_explain_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';
@@ -153,13 +154,13 @@ class TotalScreen extends StatelessWidget {
     }
 
     _gerarImagem() async {
-      Widget test = RepaintBoundary(
-        child: Container(
-          width: 100,
-          height: 100,
-          color: Colors.red,
-        ),
-      );
+      // Widget test = RepaintBoundary(
+      //   child: Container(
+      //     width: 100,
+      //     height: 100,
+      //     color: Colors.red,
+      //   ),
+      // );
 
       // game.updateImage(await WidgetToImage.repaintBoundaryToImage(test.key));
       game.updateImage(await WidgetToImage.repaintBoundaryToImage(_globalKey));
@@ -179,28 +180,32 @@ class TotalScreen extends StatelessWidget {
       Share.shareFiles([tempPath], text: 'Pontuação Alhambra');
     }
 
-    return Column(
-      children: [
-        RepaintBoundary(
-          key: _globalKey,
-          child: buildDataTable(),
-        ),
-        RaisedButton(
-          onPressed: _gerarImagem,
-          child: Text('Gerar imagem'),
-        ),
-        game.image != null
-            ? Expanded(
-                child: Padding(
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          RepaintBoundary(
+            key: _globalKey,
+            child: buildDataTable(),
+          ),
+          Divider(thickness: 3, color: Colors.black),
+          ScoreExplain(),
+          Divider(thickness: 3, color: Colors.black),
+          RaisedButton(
+            onPressed: _gerarImagem,
+            child: Text('Gerar imagem'),
+          ),
+          game.image != null
+              ? Padding(
                   padding: const EdgeInsets.all(25.0),
                   child: Container(
                     decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                     child: game.image,
                   ),
-                ),
-              )
-            : Container()
-      ],
+                )
+              : Container()
+        ],
+      ),
     );
   }
 }
