@@ -1,40 +1,35 @@
+import 'package:alhambra_calculator/providers/app_provider.dart';
+import 'package:alhambra_calculator/widgets/drawer_widget.dart';
+import 'package:alhambra_calculator/widgets/player/player_card_list_widget.dart';
+import 'package:alhambra_calculator/widgets/tile/tile_color_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/game_provider.dart';
-import '../widgets/color_bar_widget.dart';
-import '../widgets/player/player_widget.dart';
-
 class RoundScreen extends StatelessWidget {
-  final int round;
-
-  const RoundScreen(this.round);
-
   @override
   Widget build(BuildContext context) {
-    final GameProvider game = Provider.of(context);
+    final AppProvider appProvider = Provider.of(context);
+    final int rodada = appProvider.getCurrentIndex + 1;
 
-    return Column(
-      children: <Widget>[
-        ColorBar(),
-        Divider(thickness: 2),
-        Text(
-          "Quantidade de peças na rodada $round",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: ListView.builder(
-              itemCount: game.playerCount,
-              itemBuilder: (ctx, index) {
-                return PlayerWidget(round - 1, game.playerList[index]);
-              },
-            ),
+    return Scaffold(
+      drawer: DrawerWidget(),
+      appBar: AppBar(
+        title: rodada == 3 ? Text("Final") : Text("Rodada ${rodada.toString()}"),
+      ),
+      body: Column(
+        children: [
+          SizedBox(height: 5),
+          Text(
+            "Selecione uma cor de peça",
+            textScaleFactor: 1.2,
           ),
-        ),
-      ],
+          SizedBox(height: 5),
+          TileColorBarWidget(),
+          SizedBox(height: 5),
+          Divider(thickness: 1),
+          PlayerCardListWidget(),
+        ],
+      ),
     );
   }
 }

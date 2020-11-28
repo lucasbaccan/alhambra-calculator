@@ -32,17 +32,17 @@ class TileHelper {
   static Color getTileColorDarker(TileColor tileColor) {
     switch (tileColor) {
       case TileColor.BLUE:
-        return Colors.blue[400];
+        return Colors.blue[600];
       case TileColor.RED:
-        return Colors.red[400];
+        return Colors.red[600];
       case TileColor.BROWN:
-        return Colors.brown[700];
+        return Colors.brown[800];
       case TileColor.WHITE:
-        return Colors.white;
+        return Colors.grey[300];
       case TileColor.GREEN:
-        return Colors.green[700];
+        return Colors.green[900];
       case TileColor.PURPLE:
-        return Colors.purple[400];
+        return Colors.purple[600];
       default:
         return Colors.black;
     }

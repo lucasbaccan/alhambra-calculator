@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
-
 import '../helpers/tile_helper.dart';
+import 'package:flutter/foundation.dart';
 
 class TileProvider with ChangeNotifier {
   final TileColor color;
